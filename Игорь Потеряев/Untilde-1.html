@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Auto Хекслет — Автоцентр в Новосибирске</title>
+    <style>
+        /* ===== БАЗОВЫЕ ПЕРЕМЕННЫЕ И СБРОС ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Светлая тема (по умолчанию) */
+        :root {
+            --bg-page: #f4f6fa;
+            --bg-white: #ffffff;
+            --bg-card: #ffffff;
+            --text-dark: #1e2a3e;
+            --text-gray: #4a5b6e;
+            --text-light: #6c7a8a;
+            --accent: #c10016;
+            --accent-dark: #9b0012;
+            --accent-hover: #e01a2e;
+            --shadow: 0 8px 20px rgba(0,0,0,0.08);
+            --shadow-hover: 0 20px 30px -12px rgba(0,0,0,0.2);
+            --border: #e2e8f0;
+            --transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            --header-bg: #ffffff;
+            --modal-bg: #ffffff;
+            --input-bg: #f4f6fa;
+        }
+
+        /* Тёмная тема */
+        body.dark {
+            --bg-page: #121826;
+            --bg-white: #1a202c;
+            --bg-card: #1f2937;
+            --text-dark: #f0f2f5;
+            --text-gray: #9ca3af;
+            --text-light: #6b7280;
+            --shadow: 0 8px 20px rgba(0,0,0,0.3);
+            --shadow-hover: 0 20px 30px -12px rgba(0,0,0,0.4);
+            --border: #374151;
+            --header-bg: #1a202c;
+            --modal-bg: #1f2937;
+            --input-bg: #374151;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+            line-height: 1.5;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Анимация появления */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        section, .car-card, .hero {
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        /* ШАПКА */
+        header {
+            background: var(--header-bg);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: background-color 0.3s;
+        }
+
+        .header-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav a {
+            text-decoration: none;
+            font-weight: 600;
+            color: var(--text-dark);
+            transition: var(--transition);
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent);
+        }
+
+        /* Кнопка темы */
+        .theme-toggle {
+            background: var(--input-bg);
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Иконки в шапке */
+        .header-icons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .favorite-icon, .cart-icon {
+            background: none;
+            border: none;
+            font-size: 1.6rem;
+            cursor: pointer;
+            position: relative;
+            color: var(--text-dark);
+            transition: var(--transition);
+        }
+
+        .favorite-icon:hover, .cart-icon:hover {
+            transform: scale(1.1);
+            color: var(--accent);
+        }
+
+        .favorite-count, .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: var(--accent);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border-radius: 50%;
+            padding: 2px 6px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        /* ГЛАВНЫЙ БАННЕР */
+        .hero {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: rgb(0, 0, 0);
+            padding: 3rem 2rem;
+            margin: 1.5rem;
+            border-radius: 2rem;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .hero-text h2 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-offer {
+            font-size: 1.3rem;
+            background: rgba(255,255,255,0.2);
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            margin-top: 1rem;
+        }
+
+        /* СЕКЦИЯ КАТАЛОГА */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .catalog-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .car-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        /* КАРТОЧКА АВТОМОБИЛЯ */
+        .car-card {
+            background: var(--bg-card);
+            border-radius: 1.2rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .car-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .slider-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            overflow: hidden;
+            background: #2d3748;
+        }
+
+        .slider-images {
+            display: flex;
+            transition: transform 0.4s ease;
+            height: 100%;
+        }
+
+        .slider-img {
+            min-width: 100%;
+            object-fit: cover;
+            height: 100%;
+            display: block;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            font-size: 1.2rem;
+            padding: 0.2rem 0.6rem;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: 0.2s;
+        }
+
+        .slider-btn:hover {
+            background: var(--accent);
+        }
+
+        .prev {
+            left: 10px;
+        }
+        .next {
+            right: 10px;
+        }
+
+        .car-info {
+            padding: 1.2rem;
+        }
+
+        .car-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .car-details {
+            color: var(--text-gray);
+            font-size: 0.85rem;
+            margin: 0.5rem 0;
+        }
+
+        .car-price {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin: 0.5rem 0;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            flex: 1;
+            font-size: 0.9rem;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-outline:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .fav-btn {
+            background: none;
+            border: none;
+            font-size: 1.6rem;
+            cursor: pointer;
+            transition: 0.2s;
+            flex: 0.3;
+        }
+
+        .fav-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--modal-bg);
+            border-radius: 1.5rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: fadeUp 0.3s ease;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-gray);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-body p {
+            margin: 0.5rem 0;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Корзина (сайдбар) */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100%;
+            background: var(--modal-bg);
+            box-shadow: -5px 0 20px rgba(0,0,0,0.2);
+            z-index: 1001;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h3 {
+            font-size: 1.3rem;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-gray);
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cart-item-img {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: 600;
+        }
+
+        .cart-item-price {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+
+        .cart-item-actions button {
+            background: var(--input-bg);
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .cart-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .cart-total {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .cart-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .cart-buttons .btn {
+            flex: 1;
+        }
+
+        /* СТРАНИЦЫ */
+        .page {
+            display: none;
+            animation: fadeUp 0.4s;
+        }
+
+        .page.active-page {
+            display: block;
+        }
+
+        .contacts-info, .about-text {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            margin-top: 1rem;
+            box-shadow: var(--shadow);
+        }
+
+        /* ИЗБРАННОЕ */
+        #favoritesSection {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--border);
+        }
+
+        footer {
+            background: var(--bg-card);
+            color: var(--text-gray);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        /* Оверлей */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        @media (max-width: 700px) {
+            .header-container {
+                flex-direction: column;
+            }
+            nav ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .hero {
+                text-align: center;
+            }
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-container">
+        <div class="logo">
+            <h1>Auto <span>Хекслет</span></h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#" data-page="catalog" class="nav-link active">Каталог</a></li>
+                <li><a href="#" data-page="about" class="nav-link">О компании</a></li>
+                <li><a href="#" data-page="contacts" class="nav-link">Контакты</a></li>
+            </ul>
+        </nav>
+        <div class="header-icons">
+            <button class="theme-toggle" id="themeToggle">🌙</button>
+            <button class="favorite-icon" id="openFavoritesBtn">❤️ <span id="favCount" class="favorite-count">0</span></button>
+            <button class="cart-icon" id="openCartBtn">🛒 <span id="cartCount" class="cart-count">0</span></button>
+        </div>
+    </div>
+</header>
+
+<main>
+    <!-- Главная страница / Каталог -->
+    <div id="catalogPage" class="page active-page">
+        <div class="hero">
+            <div class="hero-text">
+                
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="catalog-header">
+                <h2>Автомобили с пробегом</h2>
+                <p>10 надёжных вариантов</p>
+            </div>
+            <div class="car-grid" id="carsGrid"></div>
+
+            <!-- Секция избранного -->
+            <div id="favoritesSection" style="display: none;">
+                <h2>❤️ Избранное</h2>
+                <div id="favoritesGrid" class="car-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница О компании -->
+    <div id="aboutPage" class="page">
+        <div class="container">
+            <h2>О компании Auto Хекслет</h2>
+            <div class="about-text">
+                <p>Auto Хекслет — современный автоцентр полного цикла в Новосибирске. Мы работаем с 2015 года и помогаем купить надёжные автомобили с пробегом, а также новые машины под заказ.</p>
+                <br>
+                <p>✔️ Собственный автопарк из 100+ авто<br>✔️ Кредит и рассрочка 0%<br>✔️ Гарантия 1 год на все автомобили<br>✔️ Бесплатная юридическая проверка</p>
+                <br>
+                <p>Наша цель — честные цены и прозрачные условия. Приезжайте на тест-драйв!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница Контакты -->
+    <div id="contactsPage" class="page">
+        <div class="container">
+            <h2>Контакты Auto Хекслет</h2>
+            <div class="contacts-info">
+                <p>📍 г. Новосибирск, микрорайон Летный, 12</p>
+                <p>📞 <strong>+7 (383) 207-88-62</strong> (ежедневно 9:00–21:00)</p>
+                <p>✉️ info@autohexlet.ru</p>
+                <p>🕒 Работаем без выходных, приходите на осмотр.</p>
+                <br>
+                <p>🗺️ Схема проезда: мкр. Летный, 12 (рядом ТЦ Мега)</p>
+                <iframe src="https://api-maps.yandex.ru/frame/v1/-/CVh7YBYg?" 
+                width="100%" height="300" frameborder="0" 
+                style="border-radius: 1rem; margin-top: 1rem;"></iframe>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>© 2025 Auto Хэкслет.</p>
+</footer>
+
+<!-- Модальное окно подробнее -->
+<div id="detailModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">Подробности</h3>
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="modalBody">
+            <!-- Контент будет подставляться -->
+        </div>
+        <div class="modal-footer">
+            <button class="btn" id="modalBuyBtn">Купить</button>
+            <button class="btn btn-outline" onclick="closeModal()">Закрыть</button>
+        </div>
+    </div>
+</div>
+
+<!-- Корзина сайдбар -->
+<div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+        <h3>🛒 Корзина</h3>
+        <button class="close-cart" id="closeCartBtn">&times;</button>
+    </div>
+    <div class="cart-items" id="cartItemsList">
+        <div style="text-align: center; padding: 2rem;">Корзина пуста</div>
+    </div>
+    <div class="cart-footer">
+        <div class="cart-total" id="cartTotal">Итого: 0 ₽</div>
+        <div class="cart-buttons">
+            <button class="btn btn-outline" id="clearCartBtn">Очистить</button>
+            <button class="btn" id="checkoutBtn">Оформить</button>
+        </div>
+    </div>
+</div>
+<div class="overlay" id="overlay"></div>
+
+<script>
+    // ===== БАЗА ДАННЫХ: 10 машин =====
+    const carsData = [
+        { id: 1, brand: "Renault", model: "Duster", year: 2020, mileage: "68 825 км", engine: "Бензин, 2.0 л", trans: "АКПП", price: 873000, images: ["Renault Duster1.jpg", "Renault Duster2.jpg", "Renault Duster3.jpg"] },
+        { id: 2, brand: "Kia", model: "Sorento", year: 2014, mileage: "128 467 км", engine: "Бензин, 2.4 л", trans: "АКПП", price: 911000, images: ["Kia Sorento1.jpg", "Kia Sorento2.jpg", "Kia Sorento3.jpg"] },
+        { id: 3, brand: "Nissan", model: "Note", year: 2013, mileage: "135 843 км", engine: "Бензин, 1.6 л", trans: "АКПП", price: 503000, images: ["Nissan Note1.jpg", "Nissan Note2.jpg", "Nissan Note3.jpg"] },
+        { id: 4, brand: "Hyundai", model: "Elantra", year: 2019, mileage: "77 023 км", engine: "Бензин, 2.0 л", trans: "АКПП", price: 826000, images: ["Hyundai Elantra1.jpg", "Hyundai Elantra2.jpg", "Hyundai Elantra3.jpg"] },
+        { id: 5, brand: "Suzuki", model: "SX4", year: 2013, mileage: "121 267 км", engine: "Бензин, 1.6 л", trans: "АКПП", price: 588000, images: ["Suzuki SX41.jpg", "Suzuki SX42.jpg", "Suzuki SX43.jpg"] },
+        { id: 6, brand: "Toyota", model: "Camry", year: 2021, mileage: "45 200 км", engine: "Бензин, 2.5 л", trans: "АКПП", price: 2450000, images: ["Toyota Camry1.jpg", "Toyota Camry3.jpg","Toyota Camry2.jpg"] },
+        { id: 7, brand: "BMW", model: "X5", year: 2019, mileage: "92 500 км", engine: "Дизель, 3.0 л", trans: "АКПП", price: 3890000, images: ["BMW X51.jpg",] },
+        { id: 8, brand: "Mitsubishi", model: "Outlander", year: 2022, mileage: "28 300 км", engine: "Бензин, 2.4 л", trans: "CVT", price: 2150000, images: ["Mitsubishi Outlander1.jpg", "Mitsubishi Outlander2.jpg", "Mitsubishi Outlander3.jpg"] },
+        { id: 9, brand: "Volkswagen", model: "Tiguan", year: 2020, mileage: "63 700 км", engine: "Бензин, 2.0 л", trans: "DSG", price: 2190000, images: ["Volkswagen Tiguan1.jpg","Volkswagen Tiguan2.jpg", "Volkswagen Tiguan3.jpg"] },
+        { id: 10, brand: "LADA", model: "Vesta SW", year: 2023, mileage: "8 500 км", engine: "Бензин, 1.6 л", trans: "МКПП", price: 1090000, images: ["LADA Vesta SW1.jpg"] }
+    ];
+
+    // Корзина: { id, name, price, quantity, image }
+    let cart = JSON.parse(localStorage.getItem('autoCart')) || [];
+    let favorites = JSON.parse(localStorage.getItem('autoFavorites')) || [];
+
+    // Тема
+    let darkMode = localStorage.getItem('darkMode') === 'true';
+    if (darkMode) document.body.classList.add('dark');
+
+    // Вспомогательные функции
+    function saveCart() {
+        localStorage.setItem('autoCart', JSON.stringify(cart));
+        updateCartUI();
+    }
+
+    function saveFavorites() {
+        localStorage.setItem('autoFavorites', JSON.stringify(favorites));
+        updateFavoriteCounter();
+        renderFavoritesGrid();
+        renderCarsGrid();
+    }
+
+    function updateCartUI() {
+        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+        document.getElementById('cartCount').innerText = count;
+        renderCartItems();
+    }
+
+    function updateFavoriteCounter() {
+        document.getElementById('favCount').innerText = favorites.length;
+        const section = document.getElementById('favoritesSection');
+        if (favorites.length > 0) section.style.display = "block";
+        else section.style.display = "none";
+    }
+
+    function getValidImg(images, index) {
+        return (images && images[index]) ? images[index] : "https://placehold.co/600x400/2d3748/white?text=Auto";
+    }
+
+    // Добавление в корзину
+    function addToCart(car) {
+        const existing = cart.find(item => item.id === car.id);
+        if (existing) {
+            existing.quantity++;
+        } else {
+            cart.push({
+                id: car.id,
+                name: `${car.brand} ${car.model}`,
+                price: car.price,
+                quantity: 1,
+                image: car.images?.[0] || "https://placehold.co/600x400/2d3748/white?text=Auto"
+            });
+        }
+        saveCart();
+        // Анимация
+        const btn = event?.target;
+        if (btn) {
+            btn.textContent = '✓ Добавлено';
+            setTimeout(() => { if(btn) btn.textContent = 'Добавить в корзину'; }, 1000);
+        }
+    }
+
+    function removeFromCart(id) {
+        cart = cart.filter(item => item.id !== id);
+        saveCart();
+    }
+
+    function updateQuantity(id, delta) {
+        const item = cart.find(item => item.id === id);
+        if (item) {
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                removeFromCart(id);
+            } else {
+                saveCart();
+            }
+        }
+    }
+
+    function clearCart() {
+        cart = [];
+        saveCart();
+    }
+
+    function renderCartItems() {
+        const container = document.getElementById('cartItemsList');
+        const totalSpan = document.getElementById('cartTotal');
+        
+        if (cart.length === 0) {
+            container.innerHTML = '<div style="text-align: center; padding: 2rem;">🛒 Корзина пуста</div>';
+            totalSpan.innerHTML = 'Итого: 0 ₽';
+            return;
+        }
+        
+        let total = 0;
+        let html = '';
+        cart.forEach(item => {
+            const itemTotal = item.price * item.quantity;
+            total += itemTotal;
+            html += `
+                <div class="cart-item">
+                    <img class="cart-item-img" src="${item.image}" alt="${item.name}">
+                    <div class="cart-item-info">
+                        <div class="cart-item-title">${item.name}</div>
+                        <div class="cart-item-price">${item.price.toLocaleString()} ₽</div>
+                        <div class="cart-item-actions">
+                            <button onclick="updateQuantity(${item.id}, -1)">-</button>
+                            <span>${item.quantity}</span>
+                            <button onclick="updateQuantity(${item.id}, 1)">+</button>
+                            <button onclick="removeFromCart(${item.id})" style="background:#ff4444; color:white;">🗑️</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        totalSpan.innerHTML = `Итого: ${total.toLocaleString()} ₽`;
+    }
+
+    // Избранное
+    function toggleFavorite(carId) {
+        if (favorites.includes(carId)) {
+            favorites = favorites.filter(id => id !== carId);
+        } else {
+            favorites.push(carId);
+        }
+        saveFavorites();
+    }
+
+    // Модальное окно
+    let currentCarForModal = null;
+    
+    function showDetails(car) {
+        currentCarForModal = car;
+        document.getElementById('modalTitle').innerText = `${car.brand} ${car.model}`;
+        document.getElementById('modalBody').innerHTML = `
+            <p><strong>Год:</strong> ${car.year}</p>
+            <p><strong>Пробег:</strong> ${car.mileage}</p>
+            <p><strong>Двигатель:</strong> ${car.engine}</p>
+            <p><strong>Коробка:</strong> ${car.trans}</p>
+            <p><strong>Цена:</strong> <span style="color: var(--accent); font-size: 1.5rem; font-weight: bold;">${car.price.toLocaleString()} ₽</span></p>
+            <p><strong>Описание:</strong> Автомобиль в отличном состоянии, прошел полную диагностику. Гарантия 1 год. Возможен кредит и трейд-ин.</p>
+        `;
+        const modal = document.getElementById('detailModal');
+        modal.classList.add('active');
+        document.getElementById('overlay').classList.add('active');
+        
+        const buyBtn = document.getElementById('modalBuyBtn');
+        buyBtn.onclick = () => {
+            addToCart(car);
+            closeModal();
+        };
+    }
+
+    function closeModal() {
+        document.getElementById('detailModal').classList.remove('active');
+        document.getElementById('overlay').classList.remove('active');
+    }
+
+    // Корзина сайдбар
+    function openCart() {
+        document.getElementById('cartSidebar').classList.add('open');
+        document.getElementById('overlay').classList.add('active');
+    }
+
+    function closeCart() {
+        document.getElementById('cartSidebar').classList.remove('open');
+        document.getElementById('overlay').classList.remove('active');
+    }
+
+    // Рендер каталога
+    function renderCarsGrid() {
+        const grid = document.getElementById('carsGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        
+        carsData.forEach(car => {
+            const card = document.createElement('div');
+            card.className = 'car-card';
+            const images = car.images && car.images.length ? car.images : ["https://placehold.co/600x400/2d3748/white?text=Фото"];
+            
+            card.innerHTML = `
+                <div class="slider-container">
+                    <div class="slider-images" id="slider-${car.id}">
+                        ${images.map((img, idx) => `<img class="slider-img" src="${getValidImg(images, idx)}" alt="${car.brand} ${car.model}" loading="lazy">`).join('')}
+                    </div>
+                    <button class="slider-btn prev" data-id="${car.id}" data-dir="prev">❮</button>
+                    <button class="slider-btn next" data-id="${car.id}" data-dir="next">❯</button>
+                </div>
+                <div class="car-info">
+                    <div class="car-title">${car.brand} ${car.model}</div>
+                    <div class="car-details">${car.year} • ${car.mileage} • ${car.engine} • ${car.trans}</div>
+                    <div class="car-price">${car.price.toLocaleString()} ₽</div>
+                    <div class="card-actions">
+                        <button class="fav-btn" data-id="${car.id}">${favorites.includes(car.id) ? '❤️' : '🤍'}</button>
+                        <button class="btn buy-btn" data-id="${car.id}">🛒 Купить</button>
+                        <button class="btn btn-outline detail-btn" data-id="${car.id}">Подробнее</button>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+            
+            // Слайдер
+            const sliderDiv = card.querySelector(`#slider-${car.id}`);
+            let currentSlide = 0;
+            const totalSlides = images.length;
+            
+            function updateSlider() {
+                if (sliderDiv) sliderDiv.style.transform = `translateX(-${currentSlide * 100}%)`;
+            }
+            
+            const prevBtn = card.querySelector(`.prev[data-id="${car.id}"]`);
+            const nextBtn = card.querySelector(`.next[data-id="${car.id}"]`);
+            if (prevBtn && nextBtn && totalSlides > 1) {
+                prevBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                    updateSlider();
+                });
+                nextBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    currentSlide = (currentSlide + 1) % totalSlides;
+                    updateSlider();
+                });
+            }
+            
+            // Кнопка избранного
+            const favBtn = card.querySelector(`.fav-btn[data-id="${car.id}"]`);
+            favBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleFavorite(car.id);
+            });
+            
+            // Кнопка купить
+            const buyBtn = card.querySelector(`.buy-btn[data-id="${car.id}"]`);
+            buyBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                addToCart(car);
+            });
+            
+            // Кнопка подробнее
+            const detailBtn = card.querySelector(`.detail-btn[data-id="${car.id}"]`);
+            detailBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showDetails(car);
+            });
+        });
+    }
+    
+    function renderFavoritesGrid() {
+        const favGrid = document.getElementById('favoritesGrid');
+        if(!favGrid) return;
+        const favCars = carsData.filter(car => favorites.includes(car.id));
+        favGrid.innerHTML = '';
+        if(favCars.length === 0) {
+            favGrid.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding: 2rem;">Пока нет избранных авто. Добавьте из каталога ❤️</p>';
+            return;
+        }
+        favCars.forEach(car => {
+            const card = document.createElement('div');
+            card.className = 'car-card';
+            card.innerHTML = `
+                <div class="slider-container">
+                    <img src="${getValidImg(car.images, 0)}" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+                <div class="car-info">
+                    <div class="car-title">${car.brand} ${car.model}</div>
+                    <div class="car-details">${car.year} • ${car.mileage}</div>
+                    <div class="car-price">${car.price.toLocaleString()} ₽</div>
+                    <button class="btn fav-remove-btn" data-id="${car.id}" style="width:100%;">❤️ Удалить из избранного</button>
+                </div>
+            `;
+            const delBtn = card.querySelector('.fav-remove-btn');
+            delBtn.addEventListener('click', () => toggleFavorite(car.id));
+            favGrid.appendChild(card);
+        });
+    }
+
+    // Навигация
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(page => page.classList.remove('active-page'));
+        document.getElementById(pageId + 'Page').classList.add('active-page');
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+        document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
+        if(pageId === 'catalog') {
+            renderCarsGrid();
+            renderFavoritesGrid();
+            updateFavoriteCounter();
+        }
+        closeCart();
+    }
+    
+    // Тема
+    function toggleTheme() {
+        darkMode = !darkMode;
+        if (darkMode) {
+            document.body.classList.add('dark');
+            document.getElementById('themeToggle').innerHTML = '☀️';
+        } else {
+            document.body.classList.remove('dark');
+            document.getElementById('themeToggle').innerHTML = '🌙';
+        }
+        localStorage.setItem('darkMode', darkMode);
+    }
+    
+    // Инициализация событий
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const page = link.dataset.page;
+            showPage(page);
+        });
+    });
+    
+    document.getElementById('openFavoritesBtn').addEventListener('click', () => {
+        showPage('catalog');
+        const favSection = document.getElementById('favoritesSection');
+        if (favSection) favSection.scrollIntoView({ behavior: 'smooth' });
+    });
+    
+    document.getElementById('openCartBtn').addEventListener('click', openCart);
+    document.getElementById('closeCartBtn').addEventListener('click', closeCart);
+    document.getElementById('clearCartBtn').addEventListener('click', () => { clearCart(); });
+    document.getElementById('checkoutBtn').addEventListener('click', () => {
+        if (cart.length > 0) {
+            alert('Спасибо за заказ! С вами свяжется менеджер.');
+            clearCart();
+            closeCart();
+        } else {
+            alert('Корзина пуста');
+        }
+    });
+    document.getElementById('overlay').addEventListener('click', () => {
+        closeModal();
+        closeCart();
+    });
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+    
+    // Инициализация
+    renderCarsGrid();
+    renderFavoritesGrid();
+    updateFavoriteCounter();
+    updateCartUI();
+    
+    // Установка иконки темы
+    if (darkMode) document.getElementById('themeToggle').innerHTML = '☀️';
+    else document.getElementById('themeToggle').innerHTML = '🌙';
+</script>
+</body>
+</html>
