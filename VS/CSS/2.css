@@ -1,0 +1,138 @@
+
+.section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 30px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 30px;
+  margin-bottom: 45px;
+  flex-wrap: wrap;
+}
+.section-header h2 {
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 10px;
+}
+.section-header p {
+  color: #888;
+  font-size: 15px;
+  max-width: 500px;
+  line-height: 1.5;
+}
+
+.btn-dark {
+  padding: 13px 28px;
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+  white-space: nowrap;
+}
+.btn-dark:hover { background: #ff6b35; }
+
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+  min-height: 200px;
+}
+
+
+.card::before {
+  content: '';
+  background-image: var(--img);
+  background-size: cover;
+  background-position: center;
+  display: block;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.14);
+}
+
+.card-body {
+  padding: 25px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+.card-top h3 {
+  font-size: 22px;
+  font-weight: 700;
+}
+.card-top .price {
+  font-size: 18px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.card-top .price span {
+  font-size: 13px;
+  color: #888;
+  font-weight: 400;
+}
+
+.card-body p {
+  color: #888;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+.stars {
+  color: #ffb400;
+  font-size: 15px;
+  letter-spacing: 2px;
+}
+.btn-book {
+  padding: 11px 22px;
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.btn-book:hover { background: #ff6b35; }
+
+
+@media (max-width: 768px) {
+  .card { grid-template-columns: 1fr; }
+  .card::before { height: 180px; }
+}
